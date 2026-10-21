@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\RoleUser;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -34,6 +35,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => RoleUser::class,
         ];
     }
     public function appointments(): HasMany
@@ -44,5 +46,15 @@ class User extends Authenticatable
     public function doctor(): HasOne
     {
         return $this->hasOne(Doctor::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === RoleUser::Admin->value;
+    }
+
+    public function isDoctor(): bool
+    {
+        return $this->role === RoleUser::Doctor->value;
     }
 }
