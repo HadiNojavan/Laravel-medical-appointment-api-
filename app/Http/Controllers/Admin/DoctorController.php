@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndexDoctorRequest;
 use App\Http\Requests\StoreDoctorRequest;
+use App\Http\Requests\UpdateDoctorStatusRequest;
 use App\Http\Resources\DoctorResource;
 use App\Models\Doctor;
 use App\Services\DoctorService;
@@ -36,5 +37,11 @@ class DoctorController extends Controller
         return response()->json([
             'new doctor created'=>new DoctorResource($doctor),
         ],status: 201);
+    }
+
+    public function updateStatus(UpdateDoctorStatusRequest $request, Doctor $doctor, DoctorService $doctorService)
+    {
+        $doctor = $doctorService->updateStatus($doctor, $request->boolean('is_active'));
+        return new DoctorResource($doctor);
     }
 }

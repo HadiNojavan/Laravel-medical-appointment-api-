@@ -45,4 +45,12 @@ class DoctorService
             ->latest()
             ->paginate($filters['per_page'] ?? 15);
     }
+
+    public function updateStatus(Doctor $doctor, bool $isActive): Doctor
+    {
+        $doctor->is_active = $isActive;
+        $doctor->save();
+
+        return $doctor->load('user', 'specialty');
+    }
 }
