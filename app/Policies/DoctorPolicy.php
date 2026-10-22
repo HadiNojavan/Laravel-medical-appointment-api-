@@ -26,7 +26,7 @@ class DoctorPolicy
      */
     public function view(User $user, Doctor $doctor): bool
     {
-        return $user->isAdmin();
+        return $user->id === $doctor->user_id;
     }
 
     /**
@@ -42,7 +42,7 @@ class DoctorPolicy
      */
     public function update(User $user, Doctor $doctor): bool
     {
-        return false;
+        return $user->id === $doctor->user_id;
     }
 
     /**
@@ -71,5 +71,11 @@ class DoctorPolicy
     public function browse(User $user): bool
     {
         return $user->isPatient();
+    }
+
+    //only admin can update the status of doctor
+    public function updateStatus(User $user, Doctor $doctor): bool
+    {
+        return false;
     }
 }

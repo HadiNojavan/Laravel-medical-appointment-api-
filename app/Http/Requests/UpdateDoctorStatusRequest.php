@@ -12,7 +12,7 @@ class UpdateDoctorStatusRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->route('doctor'));
+        return $this->user()->can('updateStatus', $this->route('doctor'));
     }
 
     /**
