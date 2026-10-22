@@ -14,5 +14,6 @@ Route::middleware('auth:sanctum')->group(function () {
     //our prefix add /api/admin for first part in every url
     Route::prefix('admin')->group(function () {
         Route::post('/doctors', [DoctorController::class, 'store']);
+        Route::get('/doctors', [DoctorController::class, 'index']);
     });
 });

@@ -32,4 +32,17 @@ class DoctorService
             return $doctor->load('user', 'specialty');
         });
     }
+
+    public function list(array $filters)
+    {
+        //we use eager loading [with] for better performance
+        return Doctor::query()
+            ->with('user', 'specialty')
+            ->when(isset($filters['specialty_id']), fn ($q) =>
+            $q->where('specialty_id', $filters['specialty_id']))
+            ->when(isset($filters['is_active']), fn ($q) =>
+            $q->where('is_active', $filters['is_active']))
+            ->latest()
+            ->paginate($filters['per_page'] ?? 15);
+    }
 }

@@ -11,6 +11,11 @@ class DoctorPolicy
     /**
      * Determine whether the user can view any models.
      */
+
+    public function before(User $user, string $ability): ?bool
+    {
+        return $user->isAdmin() ? true : null;
+    }
     public function viewAny(User $user): bool
     {
         return false;
@@ -21,7 +26,7 @@ class DoctorPolicy
      */
     public function view(User $user, Doctor $doctor): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
