@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->role === RoleUser::Doctor;
     }
+
+    public function isPatient(): bool
+    {
+        return $this->role === RoleUser::Patient;
+    }
 }

@@ -68,4 +68,8 @@ class DoctorPolicy
     {
         return false;
     }
+    public function browse(User $user): bool
+    {
+        return $user->isPatient();
+    }
 }

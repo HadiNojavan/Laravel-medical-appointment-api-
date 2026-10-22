@@ -69,4 +69,22 @@ class DoctorService
 
         return $doctor->load('user', 'specialty');
     }
+
+    public function listActive(array $filters)
+    {
+        /*
+         * we use scope active in doctor model that return active doctors
+         * then we search doctor name in user table if user wants it
+         */
+        return Doctor::query()
+            ->active()
+            ->with('user:id,name', 'specialty')
+            ->when(isset($filters['specialty_id']), fn ($q) =>
+            $q->where('specialty_id', $filters['specialty_id']))
+            ->when(isset($filters['search']), fn ($q) =>
+            $q->whereHas('user', fn ($u) =>
+            $u->where('name', 'ilike', '%'.$filters['search'].'%')))
+            ->latest()
+            ->paginate($filters['per_page'] ?? 15);
+    }
 }
