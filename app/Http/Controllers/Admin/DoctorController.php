@@ -9,6 +9,7 @@ use App\Http\Resources\DoctorResource;
 use App\Models\Doctor;
 use App\Services\DoctorService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class DoctorController extends Controller
 {
@@ -17,6 +18,13 @@ class DoctorController extends Controller
         $doctors = $doctorService->list($request->validated());
 
         return DoctorResource::collection($doctors);
+    }
+
+    public function show(Doctor $doctor)
+    {
+        Gate::authorize('view', $doctor);
+
+        return new DoctorResource($doctor->load('user', 'specialty'));
     }
 
     public function store(StoreDoctorRequest $request,DoctorService $doctorService)

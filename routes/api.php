@@ -15,5 +15,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::post('/doctors', [DoctorController::class, 'store']);
         Route::get('/doctors', [DoctorController::class, 'index']);
+        Route::get('/doctors/{doctor}', [DoctorController::class, 'show']);
     });
 });
