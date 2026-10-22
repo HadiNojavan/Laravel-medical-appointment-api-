@@ -50,11 +50,11 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role === RoleUser::Admin->value;
+        return $this->role === RoleUser::Admin;
     }
 
     public function isDoctor(): bool
     {
-        return $this->role === RoleUser::Doctor->value;
+        return $this->role === RoleUser::Doctor;
     }
 }

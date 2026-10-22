@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Specialty extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
     public function doctors(): hasMany
     {
         return $this->hasMany(Doctor::class);

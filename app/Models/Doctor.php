@@ -13,6 +13,12 @@ class Doctor extends Model
     use SoftDeletes;
     use HasFactory;
 
+    protected $guarded = ['id'];
+
+    protected $attributes = [
+        'is_active' => true,
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -36,5 +42,12 @@ class Doctor extends Model
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function casts()
+    {
+        return [
+            'is_active' => 'boolean',
+        ];
     }
 }

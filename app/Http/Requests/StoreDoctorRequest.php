@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Doctor;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreDoctorRequest extends FormRequest
 {
@@ -25,13 +26,19 @@ class StoreDoctorRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string','min:3', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:doctors'],
+            'email' => ['required', 'string', 'email', 'max:255', 'lowercase', 'unique:users,email'],
             'password' => ['required', 'string', 'min:3', 'max:255'],
-            'speciality_id' => ['required', 'integer', 'exists:specialities,id'],
+            'specialty_id' => ['required', 'integer', 'exists:specialties,id'],
             'medical_license_number' => ['required', 'string', 'max:50', 'unique:doctors,medical_license_number'],
             'bio' => ['nullable', 'string'],
 
         ];
+    }
+
+    protected function failedAuthorization()
+    {
+        throw new HttpResponseException(response()->json(['error' => 'You are not authorized to perform this action.'],
+            403));
     }
 
 
