@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Patient;
 
+use App\Models\Doctor;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDoctorProfileRequest extends FormRequest
+class ListActiveDoctorsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $doctor = $this->user()->doctor;
-        return $doctor !== null && $this->user()->can('update', $doctor);
-
+        return $this->user()->can('browse', Doctor::class);
     }
 
     /**
@@ -25,8 +24,9 @@ class UpdateDoctorProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
-            'bio' => ['sometimes', 'nullable', 'string'],
+            'specialty_id' => ['nullable', 'integer', 'exists:specialties,id'],
+            'search' => ['nullable', 'string', 'max:100'],
+            'per_page' => ['nullable', 'integer', 'min:1', 'max:50'],
         ];
     }
 }

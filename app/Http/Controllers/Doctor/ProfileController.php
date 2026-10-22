@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateDoctorProfileRequest;
+use App\Http\Requests\Doctor\UpdateDoctorProfileRequest;
 use App\Http\Resources\DoctorResource;
 use App\Services\DoctorService;
 use Illuminate\Http\Request;

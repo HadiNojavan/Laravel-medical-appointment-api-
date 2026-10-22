@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\IndexDoctorRequest;
-use App\Http\Requests\StoreDoctorRequest;
-use App\Http\Requests\UpdateDoctorRequest;
-use App\Http\Requests\UpdateDoctorStatusRequest;
+use App\Http\Requests\Admin\IndexDoctorRequest;
+use App\Http\Requests\Admin\StoreDoctorRequest;
+use App\Http\Requests\Admin\UpdateDoctorRequest;
+use App\Http\Requests\Admin\UpdateDoctorStatusRequest;
 use App\Http\Resources\DoctorResource;
 use App\Models\Doctor;
 use App\Services\DoctorService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class DoctorController extends Controller
