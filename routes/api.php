@@ -17,5 +17,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/doctors', [DoctorController::class, 'index']);
         Route::get('/doctors/{doctor}', [DoctorController::class, 'show']);
         Route::patch('/doctors/{doctor}/status', [DoctorController::class, 'updateStatus']);
+        Route::patch('/doctors/{doctor}',[DoctorController::class, 'update']);
     });
 });

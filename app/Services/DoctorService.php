@@ -46,6 +46,22 @@ class DoctorService
             ->paginate($filters['per_page'] ?? 15);
     }
 
+    public function update(Doctor $doctor, array $data): Doctor
+    {
+        return DB::transaction(function () use ($doctor, $data) {
+            $doctor->user->update(Arr::only($data, ['name', 'email']));
+
+            /*
+             * if admin only send one parameter with using [Arr::only] we will skip other parameter
+             */
+            $doctor->update(Arr::only($data, [
+                'specialty_id', 'medical_license_number', 'bio',
+            ]));
+
+            return $doctor->refresh()->load('user', 'specialty');
+        });
+    }
+
     public function updateStatus(Doctor $doctor, bool $isActive): Doctor
     {
         $doctor->is_active = $isActive;

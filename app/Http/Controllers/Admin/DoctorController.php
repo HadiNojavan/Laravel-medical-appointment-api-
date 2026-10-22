@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndexDoctorRequest;
 use App\Http\Requests\StoreDoctorRequest;
+use App\Http\Requests\UpdateDoctorRequest;
 use App\Http\Requests\UpdateDoctorStatusRequest;
 use App\Http\Resources\DoctorResource;
 use App\Models\Doctor;
@@ -37,6 +38,13 @@ class DoctorController extends Controller
         return response()->json([
             'new doctor created'=>new DoctorResource($doctor),
         ],status: 201);
+    }
+
+    public function update(UpdateDoctorRequest $request, Doctor $doctor, DoctorService $doctorService)
+    {
+        $doctor = $doctorService->update($doctor, $request->validated());
+
+        return new DoctorResource($doctor);
     }
 
     public function updateStatus(UpdateDoctorStatusRequest $request, Doctor $doctor, DoctorService $doctorService)
