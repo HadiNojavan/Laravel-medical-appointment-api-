@@ -17,4 +17,20 @@ class AvailabilityPolicy
     {
         return $user->isDoctor() && $user->doctor !== null;
     }
+
+    public function view(User $user, Availability $availability): bool
+    {
+        return $user->doctor !== null
+            && $user->doctor->id === $availability->doctor_id;
+    }
+
+    public function update(User $user, Availability $availability): bool
+    {
+        return $this->view($user, $availability);
+    }
+
+    public function delete(User $user, Availability $availability): bool
+    {
+        return $this->view($user, $availability);
+    }
 }

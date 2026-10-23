@@ -24,35 +24,60 @@ class AvailabilityService
 
     private const int LOOKAHEAD_DAYS = 84;
 
+
     public function create(Doctor $doctor, array $data): Availability
     {
         return DB::transaction(function () use ($doctor, $data) {
-            /*
-             * lock for update: we lock doctor id table
-             * so if in this time doctor again send new request
-             * it will be wait untill this process ends
-             */
             Doctor::whereKey($doctor->id)->lockForUpdate()->first();
 
-            $newAvailability = new Availability($data);
-
-            $existing = $doctor->availabilities()
-                ->where('is_active', true)
-                ->get();
-
-            //now we check if we have conflicts with last Availability
-            foreach ($existing as $other) {
-                if ($this->conflicts($newAvailability, $other)) {
-                    throw ValidationException::withMessages([
-                        'start_time' => ['This schedule overlaps with an existing availability.'],
-                    ]);
-                }
-            }
+            $this->assertNoConflict($doctor, new Availability($data));
 
             return $doctor->availabilities()->create($data);
         });
     }
 
+    public function update(Availability $availability, array $data): Availability
+    {
+        return DB::transaction(function () use ($availability, $data) {
+            $doctor = $availability->doctor;
+
+            /*
+             * lock for update: we lock doctor id table
+             * so if in this time doctor again send new request
+             * it will be wait untill this process ends
+             */
+
+            Doctor::whereKey($doctor->id)->lockForUpdate()->first();
+
+            // what the record would look like after the update
+            $candidate = $availability->replicate()->fill($data);
+
+            //now we check if we have conflicts with last Availability
+            if ($candidate->is_active) {
+                $this->assertNoConflict($doctor, $candidate, ignoreId: $availability->id);
+            }
+
+            $availability->update($data);
+
+            return $availability->refresh();
+        });
+    }
+
+    private function assertNoConflict(Doctor $doctor, Availability $candidate, ?int $ignoreId = null): void
+    {
+        $others = $doctor->availabilities()
+            ->where('is_active', true)
+            ->when($ignoreId, fn ($q) => $q->whereKeyNot($ignoreId))
+            ->get();
+
+        foreach ($others as $other) {
+            if ($this->conflicts($candidate, $other)) {
+                throw ValidationException::withMessages([
+                    'start_time' => ['This schedule overlaps with an existing availability.'],
+                ]);
+            }
+        }
+    }
     private function conflicts(Availability $a, Availability $b): bool
     {
         // 1. the period where both rules are valid

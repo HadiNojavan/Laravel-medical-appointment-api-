@@ -29,5 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/profile', [DoctorProfileController::class, 'update']);
         Route::get('/availabilities', [AvailabilityController::class, 'index']);
         Route::post('/availabilities', [AvailabilityController::class, 'store']);
+        Route::get('/availabilities/{availability}', [AvailabilityController::class, 'show']);
+        Route::patch('/availabilities/{availability}', [AvailabilityController::class, 'update']);
+        Route::delete('/availabilities/{availability}', [AvailabilityController::class, 'destroy']);
     });
 });
