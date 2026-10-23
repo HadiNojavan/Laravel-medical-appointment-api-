@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -14,15 +15,16 @@ return new class extends Migration
         Schema::create('availability_exceptions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('doctor_id')->constrained('doctors')->cascadeOnDelete();
-            //when is null the whole day is off
-            $table->time('start_time')->nullable();
-            $table->time('end_time')->nullable();
+            $table->timestamp('start_at');   // UTC
+            $table->timestamp('end_at');     // UTC
             $table->string('reason')->nullable();
-            $table->date('date');
             $table->timestamps();
 
-            $table->index(['doctor_id', 'date']);
+            // the slot builder looks up leaves by doctor and time range
+            $table->index(['doctor_id', 'start_at']);
+
         });
+        DB::statement('ALTER TABLE availability_exceptions ADD CONSTRAINT leave_range_check CHECK (end_at > start_at)');
     }
 
     /**

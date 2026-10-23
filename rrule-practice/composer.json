@@ -1,0 +1,13 @@
+{
+    "name": "hadi/rrule-practice",
+    "authors": [
+        {
+            "name": "hadi",
+            "email": "hadinojvan6@gmail.com"
+        }
+    ],
+    "require": {
+        "rlanvin/php-rrule": "^3.0",
+        "nesbot/carbon": "^3.15"
+    }
+}

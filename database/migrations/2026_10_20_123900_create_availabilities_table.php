@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('availabilities', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->foreignId('doctor_id')->constrained('doctors')->cascadeOnDelete();
             $table->string('rrule');
             $table->time('start_time');
             $table->time('end_time');
-            $table->boolean('is_active')->default(true);
             $table->unsignedSmallInteger('slot_duration_minutes');
             $table->date('valid_from');
             $table->date('valid_until')->nullable();
+            $table->string('timezone', 64)->default('Asia/Tehran');
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
             /*
              * //here when we want to get Availability::where('doctor_id', 5)->where('is_active', true)->get();
              * it will be slow but by using index it will faster to find them
