@@ -12,9 +12,9 @@ use RRule\RRule;
  * here we validate doctor rrule
  * here is the rules
  * no new lines and no :
- * parts should separated by :
+ * parts should separated by ;
  * FREQ must be WEEKLY
- *BYDAY is required unique days MO,TU,WE,TH,FR,SA,SU
+ *BYDAY is required. unique days MO,TU,WE,TH,FR,SA,SU
  * INTERVAL is optional . a number from 1 to 4.
  * WKST [week start] is optional. one valid day
  * finally we check that our rrule can parse it

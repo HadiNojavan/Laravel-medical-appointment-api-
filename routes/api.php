@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Doctor\AvailabilityController;
 use App\Http\Controllers\Doctor\ProfileController as DoctorProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Patient\DoctorController as PatientDoctorController;
@@ -26,5 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('doctor')->group(function () {
         Route::get('/profile', [DoctorProfileController::class, 'show']);
         Route::patch('/profile', [DoctorProfileController::class, 'update']);
+        Route::get('/availabilities', [AvailabilityController::class, 'index']);
+        Route::post('/availabilities', [AvailabilityController::class, 'store']);
     });
 });
