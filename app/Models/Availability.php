@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Availability extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['doctor_id', 'rrule', 'start_time', 'end_time', 'slot_duration_minutes', 'valid_from',
+        'valid_until', 'timezone', 'is_active',];
+
+    protected $attributes = ['timezone' => 'Asia/Tehran', 'is_active' => true,];
     public function doctor(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);

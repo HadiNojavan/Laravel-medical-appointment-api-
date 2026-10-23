@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AvailabilityException extends Model
 {
     use HasFactory;
+    protected $fillable = ['doctor_id', 'start_at', 'end_at', 'reason',];
     public function doctor(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
@@ -17,7 +18,8 @@ class AvailabilityException extends Model
     public function casts()
     {
         return [
-            'date' => 'date',
+            'start_at' => 'datetime',
+            'end_at' => 'datetime'
         ];
     }
 }
