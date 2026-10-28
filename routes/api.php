@@ -15,6 +15,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::get('/doctors', [PatientDoctorController::class, 'index']);
 
+    //here patient wants to see doctor slots
+    Route::get('/doctors/{doctor}/slots', [PatientDoctorController::class, 'slots']);
+
     //our prefix add /api/admin for first part in every url
     Route::prefix('admin')->group(function () {
         Route::post('/doctors', [DoctorController::class, 'store']);

@@ -70,7 +70,7 @@ class DoctorPolicy
     }
     public function browse(User $user): bool
     {
-        return $user->isPatient();
+        return $user->isPatient() || $user->isDoctor();
     }
 
     //only admin can update the status of doctor
