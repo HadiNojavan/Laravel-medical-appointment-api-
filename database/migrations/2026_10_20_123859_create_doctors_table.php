@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->unique()->constrained('users')->cascadeOnDelete();
             $table->string('medical_license_number')->unique();
             $table->boolean('is_active')->default(true);
-            $table->string('bio')->nullable();
+            $table->text('bio')->nullable();
             $table->softDeletes();
 
         });

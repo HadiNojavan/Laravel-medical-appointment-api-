@@ -20,6 +20,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([SpecialtySeeder::class]);
 
+        User::factory()->create([
+            'name' => 'user',
+            'email'=>'test@gmail.com',
+            'password'=> bcrypt('password'),
+        ]);
         User::factory()->admin()->create([
             'name' => 'hadi',
             'email'=>'hadi@gmail.com',
