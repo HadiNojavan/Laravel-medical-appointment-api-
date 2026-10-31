@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Doctor\AvailabilityController;
 use App\Http\Controllers\Doctor\ProfileController as DoctorProfileController;
+use App\Http\Controllers\Patient\AppointmentController as PatientAppointmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Patient\DoctorController as PatientDoctorController;
 
@@ -17,6 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //here patient wants to see doctor slots
     Route::get('/doctors/{doctor}/slots', [PatientDoctorController::class, 'slots']);
+    Route::post('/appointments', [PatientAppointmentController::class, 'store']);
 
     //our prefix add /api/admin for first part in every url
     Route::prefix('admin')->group(function () {
