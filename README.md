@@ -5,6 +5,9 @@ Base URL
 ```
 http://127.0.0.1:8000/api
 ```
+```
+The Postman collection is in `docs/postman'
+```
 
 Headers for every request
 
