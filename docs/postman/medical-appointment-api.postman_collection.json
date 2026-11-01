@@ -1,0 +1,734 @@
+{
+  "info": {
+    "_postman_id": "16175e77-852e-474a-8070-eebed1703722",
+    "name": "medical-appointment-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57761158",
+    "_collection_link": "https://go.postman.co/collection/57761158-16175e77-852e-474a-8070-eebed1703722?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_uri}}/api/me",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Ali Rezaei\",\n    \"email\": \"ali@example.com\",\n    \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/register",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {\n    const response = pm.response.json();\n\n    if (response.access_token) {\n        pm.environment.set(\"auth_token\", response.access_token);\n    }\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"test@gmail.com\", \"password\": \"password\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/login",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "description": "{ \"email\": \"[hadi@gmail.com](https://mailto:hadi@gmail.com)\", \"password\": \"hadi123\"}\n\n{ \"name\": \"Ali Rezaei\", \"email\": \"[ali@example.com](https://mailto:ali@example.com)\", \"password\": \"password123\" }\n\n{ \"email\": \"[doctor@gmail.com](https://mailto:doctor@gmail.com)\", \"password\": \"doctor123\"}\n\n{ \"email\": \"[test@gmail.com](https://mailto:test@gmail.com)\", \"password\": \"password\" }"
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {\n    pm.environment.unset(\"auth_token\");\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_uri}}/api/logout",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "addDoctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Dr. Sara Ahmadi\",\n    \"email\": \"sara.ahmadi@essxamplde.com\",\n    \"password\": \"Secret1d234\",\n    \"specialty_id\": 1,\n    \"medical_license_number\": \"127345d6\",\n    \"bio\": \"Cardiologist with 10 years of experience\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/admin/doctors",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "doctors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "index-Doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/admin/doctors",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "doctors"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "2",
+                  "disabled": true
+                },
+                {
+                  "key": "specialty_id",
+                  "value": "4",
+                  "disabled": true
+                },
+                {
+                  "key": "is_active",
+                  "value": "0",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show-Doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_uri}}/api/admin/doctors/1",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "doctors",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "patch-status-doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"is_active\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/admin/doctors/5/status",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "doctors",
+                "5",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "patch-doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"medical_license_number\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/admin/doctors/5",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "doctors",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Patient",
+      "item": [
+        {
+          "name": "index-Doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_uri}}/api/doctors?per_page=8",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "doctors"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "8"
+                },
+                {
+                  "key": "specialty_id",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "sara",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show-docotor-avalibility",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_uri}}/api/doctors/1/slots?from=2026-11-01&to=2026-11-07",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "doctors",
+                "1",
+                "slots"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "2026-11-01"
+                },
+                {
+                  "key": "to",
+                  "value": "2026-11-07"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "post-book-appoinments",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"doctor_id\": 1, \"start_at\": \"2026-11-01T05:30:00Z\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/appointments",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "appointments"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Doctor",
+      "item": [
+        {
+          "name": "index-Doctor-profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"is_active\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/doctor/profile",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "doctor",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "patch-doctor-profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"bio\": \"hack attempt\",\n    \"specialty_id\": 3,\n    \"medical_license_number\": \"999999\",\n    \"is_active\": false,\n    \"role\": \"admin\",\n    \"email\": \"hacker@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/doctor/profile",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "doctor",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Post-Doctor-Availabilities",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rrule\": \"FREQ=WEEKLY;BYDAY=SA,MO\",\n  \"start_time\": \"14:00\",\n  \"end_time\": \"18:00\",\n  \"slot_duration_minutes\": 30,\n  \"valid_from\": \"2026-11-01\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/doctor/availabilities",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "doctor",
+                "availabilities"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Index-Doctor-Availabilities",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_uri}}/api/doctor/availabilities",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "doctor",
+                "availabilities"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show-Doctor-availabilities",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_uri}}/api/doctor/availabilities/1",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "doctor",
+                "availabilities",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "patch-doctor-availabilities",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"end_time\": \"08:00\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uri}}/api/doctor/availabilities/1",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "doctor",
+                "availabilities",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete-doctor-availabilities",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_uri}}/api/doctor/availabilities/2",
+              "host": [
+                "{{base_uri}}"
+              ],
+              "path": [
+                "api",
+                "doctor",
+                "availabilities",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
